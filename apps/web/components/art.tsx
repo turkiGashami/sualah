@@ -6,36 +6,32 @@ type SvgProps = { className?: string };
 
 /* ── Sadu weave band (tiles horizontally) ───────────────────────────────── */
 
-export function SaduBand({
-  className,
-  bg = "#e7d6b0",
-  diamond = "#9a3325",
-  accent = "#1c1712",
-}: {
-  className?: string;
-  bg?: string;
-  diamond?: string;
-  accent?: string;
-}) {
-  // One square tile, repeated horizontally at its natural aspect ratio (scaled
-  // to the band height) — so the diamonds never stretch on wide screens.
+export function SaduBand({ className }: { className?: string }) {
+  // Authentic Najdi Sadu border: a layered "star" diamond (ink/oxblood/olive)
+  // flanked by inward chevrons, between two ink rules — on a cream woven ribbon.
+  // Tiled horizontally at natural aspect (scaled to band height) so it never
+  // stretches and reads at a comfortable size on any width.
+  const C = "#e7d6b0";
+  const I = "#1c1712";
+  const R = "#9a3325";
+  const G = "#5f6f3a";
   const tile =
-    `<svg xmlns='http://www.w3.org/2000/svg' width='48' height='48'>` +
-    `<rect width='48' height='48' fill='${bg}'/>` +
-    `<path d='M24 3L45 24L24 45L3 24Z' fill='${diamond}'/>` +
-    `<path d='M24 12L36 24L24 36L12 24Z' fill='${bg}'/>` +
-    `<path d='M24 18L30 24L24 30L18 24Z' fill='${accent}'/>` +
-    `<rect x='0' y='20' width='8' height='8' fill='${accent}'/>` +
-    `<rect x='40' y='20' width='8' height='8' fill='${accent}'/>` +
-    `<path d='M24 0L30 6L24 12L18 6Z' fill='${accent}'/>` +
-    `<path d='M24 36L30 42L24 48L18 42Z' fill='${accent}'/>` +
+    `<svg xmlns='http://www.w3.org/2000/svg' width='60' height='56'>` +
+    `<rect width='60' height='56' fill='${C}'/>` +
+    `<rect x='0' y='6' width='60' height='2.6' fill='${I}'/>` +
+    `<rect x='0' y='47.4' width='60' height='2.6' fill='${I}'/>` +
+    `<path d='M2 17L13 28L2 39Z' fill='${I}'/>` +
+    `<path d='M58 17L47 28L58 39Z' fill='${I}'/>` +
+    `<path d='M30 13L47 28L30 43L13 28Z' fill='${I}'/>` +
+    `<path d='M30 17.6L41.4 28L30 38.4L18.6 28Z' fill='${R}'/>` +
+    `<path d='M30 23L35 28L30 33L25 28Z' fill='${G}'/>` +
     `</svg>`;
   return (
     <div
       className={className}
       aria-hidden
       style={{
-        backgroundColor: bg,
+        backgroundColor: C,
         backgroundImage: `url("data:image/svg+xml,${encodeURIComponent(tile)}")`,
         backgroundRepeat: "repeat-x",
         backgroundPosition: "center",

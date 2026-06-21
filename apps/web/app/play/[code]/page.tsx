@@ -89,7 +89,7 @@ export default function PlayPage({ params }: { params: { code: string } }) {
 
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col">
-      <SaduBand className="h-7 w-full shrink-0" />
+      <SaduBand className="h-10 w-full shrink-0" />
       <div className="flex flex-1 flex-col p-4">
         <TopBar phase={phase} deadlineAt={room.deadlineAt} round={pub?.round ?? 0} dead={dead} />
         <div className="flex flex-1 flex-col">{body}</div>
@@ -130,7 +130,7 @@ function JoinForm({ code, started, onJoined, onError }: { code: string; started:
   const [busy, setBusy] = useState(false);
   return (
     <main className="flex min-h-screen flex-col">
-      <SaduBand className="h-9 w-full" />
+      <SaduBand className="h-10 w-full" />
       <div className="mx-auto flex w-full max-w-md flex-1 flex-col items-center justify-center gap-7 p-6 text-center">
         <div>
           <h1 className="font-title text-5xl text-ink">{ui.appName}</h1>

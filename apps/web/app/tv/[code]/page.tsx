@@ -55,11 +55,10 @@ export default function TvPage({ params }: { params: { code: string } }) {
   const inLobby = !room.sessionId || room.status === "lobby";
   const phase = room.phase as Phase | null;
   const dark = isDark(phase, room.pub?.winner);
-  const sadu = dark ? { bg: "#1c1712", diamond: "#b8402e", accent: "#e7d6b0" } : {};
 
   return (
     <main className={`relative flex min-h-screen flex-col overflow-hidden transition-colors duration-700 ${bgClass(phase, room.pub?.winner)}`}>
-      <SaduBand className="h-10 w-full shrink-0" {...sadu} />
+      <SaduBand className="h-14 w-full shrink-0" />
 
       {phase === "night" && <Stars className="pointer-events-none absolute inset-x-0 top-12 h-1/2 w-full opacity-80" />}
 
@@ -81,7 +80,7 @@ export default function TvPage({ params }: { params: { code: string } }) {
         {inLobby ? <Lobby code={code} joinUrl={joinUrl} players={room.players.map((p) => p.nickname)} /> : <GameStage room={room} secondsLeft={secondsLeft} dark={dark} />}
       </div>
 
-      <SaduBand className="h-10 w-full shrink-0" {...sadu} />
+      <SaduBand className="h-14 w-full shrink-0" />
     </main>
   );
 }

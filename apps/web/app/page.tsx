@@ -12,7 +12,7 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col">
-      <SaduBand className="h-11 w-full" />
+      <SaduBand className="h-12 w-full" />
 
       <div className="flex flex-1 flex-col items-center justify-center px-6">
         <div className="flex w-full max-w-sm flex-col items-center gap-10 animate-riseIn">
@@ -57,7 +57,7 @@ export default function Home() {
         </div>
       </div>
 
-      <SaduBand className="h-11 w-full" />
+      <SaduBand className="h-12 w-full" />
     </main>
   );
 }

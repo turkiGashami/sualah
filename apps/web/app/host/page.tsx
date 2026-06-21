@@ -92,7 +92,7 @@ export default function HostPage() {
 
   return (
     <main className="flex min-h-screen flex-col">
-      <SaduBand className="h-10 w-full" />
+      <SaduBand className="h-12 w-full" />
       <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-5 p-6">
         <header className="card flex items-center justify-between">
           <div>
@@ -154,7 +154,7 @@ export default function HostPage() {
           </a>
         </div>
       </div>
-      <SaduBand className="h-10 w-full" />
+      <SaduBand className="h-12 w-full" />
     </main>
   );
 }
