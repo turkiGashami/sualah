@@ -16,7 +16,7 @@
    | Install command | `pnpm install --frozen-lockfile` |
    | Build command | `pnpm --filter @sualah/web build` |
    | Start command | `pnpm --filter @sualah/web start` |
-   | Node version | 20 (مثبّت في `.nvmrc`) |
+   | Node version | 22 (مثبّت في `.nvmrc` — pnpm 11 يتطلّب Node ≥ 22.13) |
 
    التطبيق يستمع على المنفذ من متغيّر `PORT` (يحقنه CranL تلقائياً).
 

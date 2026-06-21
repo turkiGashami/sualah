@@ -2,7 +2,7 @@
 # Sualah web — Next.js standalone in a pnpm monorepo. Deterministic build for
 # CranL (Build Type: Dockerfile). Backend is on Supabase.
 
-FROM node:20-alpine AS base
+FROM node:22-alpine AS base
 RUN corepack enable
 WORKDIR /app
 
