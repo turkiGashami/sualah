@@ -6,7 +6,8 @@
   "description": "سُعلاة — Arabic web party game: hidden-roles social deduction (Arabian folklore)",
   "scripts": {
     "dev": "pnpm --filter @sualah/web dev",
-    "build": "pnpm -r build",
+    "build": "pnpm --filter @sualah/web build",
+    "start": "pnpm --filter @sualah/web start",
     "test": "pnpm --filter @sualah/game-core test",
     "test:watch": "pnpm --filter @sualah/game-core test -- --watch",
     "typecheck": "pnpm -r typecheck",
