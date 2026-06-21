@@ -1,0 +1,26 @@
+{
+  "name": "sealah",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@11.1.2",
+  "description": "سُعلاة — Arabic web party game: hidden-roles social deduction (Arabian folklore)",
+  "scripts": {
+    "dev": "pnpm --filter @sealah/web dev",
+    "build": "pnpm -r build",
+    "test": "pnpm --filter @sealah/game-core test",
+    "test:watch": "pnpm --filter @sealah/game-core test -- --watch",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "pnpm -r lint",
+    "e2e": "pnpm --filter @sealah/web e2e",
+    "build:edge": "node scripts/build-edge-shared.mjs",
+    "pentest": "tsx --env-file=.env.local supabase/tests/pentest.ts"
+  },
+  "devDependencies": {
+    "@supabase/supabase-js": "^2.47.10",
+    "@types/node": "^22.10.2",
+    "dotenv": "^16.4.7",
+    "esbuild": "^0.24.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

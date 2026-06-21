@@ -1,0 +1,5 @@
+project_id = "sealah"
+
+[auth]
+# Players join as anonymous users (§2). Hosts use email/Google.
+enable_anonymous_sign_ins = true

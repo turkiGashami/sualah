@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  @apply bg-sand font-sans text-ink antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Faint paper grain (multiply on cream) — print feel, not a generated gradient. */
+.grain {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  opacity: 0.07;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@layer components {
+  /* Flat, printed-sticker buttons with a hard ink shadow — no glow. */
+  .btn-primary {
+    @apply rounded-md border-2 border-ink bg-oxblood px-5 py-3 font-bold text-bone shadow-hard transition-all duration-150 hover:bg-oxbloodlit active:translate-x-[3px] active:translate-y-[3px] active:shadow-none disabled:cursor-not-allowed disabled:border-ash disabled:bg-ash disabled:text-sand disabled:shadow-none;
+  }
+  .btn-ghost {
+    @apply rounded-md border-2 border-ink bg-transparent px-5 py-3 font-bold text-ink shadow-hard transition-all duration-150 hover:bg-ink hover:text-bone active:translate-x-[3px] active:translate-y-[3px] active:shadow-none disabled:opacity-40;
+  }
+  .card {
+    @apply rounded-md border-2 border-ink bg-parch p-5 shadow-hard;
+  }
+  .panel {
+    @apply rounded-md border-2 border-ink bg-sand p-5;
+  }
+  .input {
+    @apply rounded-md border-2 border-ink bg-bone px-4 py-3 text-ink outline-none transition placeholder:text-ash focus:border-oxblood focus:ring-2 focus:ring-oxblood/30;
+  }
+  .pill {
+    @apply rounded-md border-2 border-ink bg-sand px-3 py-1 text-sm font-bold text-ink;
+  }
+  .tile {
+    @apply rounded-md border-2 border-ink bg-parch font-bold text-ink transition-all duration-100 active:translate-x-[2px] active:translate-y-[2px];
+  }
+  .tile-on {
+    @apply border-ink bg-oxblood text-bone;
+  }
+}
