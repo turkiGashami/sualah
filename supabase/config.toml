@@ -1,4 +1,4 @@
-project_id = "sealah"
+project_id = "sualah"
 
 [auth]
 # Players join as anonymous users (§2). Hosts use email/Google.

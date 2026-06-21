@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { reduce, onPhaseTimeout, isPhaseComplete, type GameAction } from "../module.js";
-import type { SealahState } from "../types.js";
+import type { SualahState } from "../types.js";
 import { SKIP } from "../types.js";
 import { byId, stateWith } from "./helpers.js";
 
-function apply(s: SealahState, actions: GameAction[]): SealahState {
+function apply(s: SualahState, actions: GameAction[]): SualahState {
   return actions.reduce((acc, a) => reduce(acc, a), s);
 }
 

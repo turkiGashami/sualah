@@ -1,4 +1,4 @@
-// The Sealah state machine. Pure: no I/O, no Date, no Math.random. Time and
+// The Sualah state machine. Pure: no I/O, no Date, no Math.random. Time and
 // randomness enter only as arguments / via the seed in state. This is the sole
 // source of truth for game rules — Edge Functions call into it and persist the
 // result; they never re-implement rules.
@@ -17,7 +17,7 @@ import {
   type PublicPlayer,
   type PublicState,
   type Role,
-  type SealahState,
+  type SualahState,
   type SeerResult,
   type Settings,
   type Team,
@@ -64,21 +64,21 @@ export type PlayerSecret =
 
 // ── Internal helpers ─────────────────────────────────────────────────────────
 
-function clone(state: SealahState): SealahState {
+function clone(state: SualahState): SualahState {
   return structuredClone(state);
 }
 
-function getPlayer(s: SealahState, id: PlayerId): PlayerRuntime {
+function getPlayer(s: SualahState, id: PlayerId): PlayerRuntime {
   const p = s.players.find((x) => x.id === id);
   if (!p) throw new GameError("unknown_player", `no player ${id}`);
   return p;
 }
 
-function maybePlayer(s: SealahState, id: PlayerId): PlayerRuntime | undefined {
+function maybePlayer(s: SualahState, id: PlayerId): PlayerRuntime | undefined {
   return s.players.find((x) => x.id === id);
 }
 
-function isAlive(s: SealahState, id: PlayerId): boolean {
+function isAlive(s: SualahState, id: PlayerId): boolean {
   return maybePlayer(s, id)?.alive === true;
 }
 
@@ -86,15 +86,15 @@ function isMonster(role: Role): boolean {
   return TEAM_OF[role] === "monsters";
 }
 
-function aliveMonsterIds(s: SealahState): PlayerId[] {
+function aliveMonsterIds(s: SualahState): PlayerId[] {
   return s.players.filter((p) => p.alive && isMonster(p.role)).map((p) => p.id);
 }
 
-function singleAliveOfRole(s: SealahState, role: Role): PlayerRuntime | undefined {
+function singleAliveOfRole(s: SualahState, role: Role): PlayerRuntime | undefined {
   return s.players.find((p) => p.alive && p.role === role);
 }
 
-function rngOf(s: SealahState): Rng {
+function rngOf(s: SualahState): Rng {
   return { seed: s.seed, cursor: s.rngCursor };
 }
 
@@ -104,7 +104,7 @@ function freshNight(): NightActions {
 
 // ── init ─────────────────────────────────────────────────────────────────────
 
-export function init(input: InitInput): SealahState {
+export function init(input: InitInput): SualahState {
   const n = input.playerIds.length;
   if (n < MIN_PLAYERS || n > MAX_PLAYERS) {
     throw new GameError("bad_player_count", `need ${MIN_PLAYERS}-${MAX_PLAYERS} players, got ${n}`);
@@ -148,7 +148,7 @@ export function init(input: InitInput): SealahState {
 
 // ── reduce: in-phase player actions (do NOT advance the phase) ────────────────
 
-export function reduce(state: SealahState, action: GameAction): SealahState {
+export function reduce(state: SualahState, action: GameAction): SualahState {
   const s = clone(state);
 
   switch (action.type) {
@@ -248,13 +248,13 @@ export function reduce(state: SealahState, action: GameAction): SealahState {
   }
 }
 
-function requirePhase(s: SealahState, phase: Phase): void {
+function requirePhase(s: SualahState, phase: Phase): void {
   if (s.phase !== phase) throw new GameError("wrong_phase", `expected ${phase}, got ${s.phase}`);
 }
 
 // ── checkEnd ─────────────────────────────────────────────────────────────────
 
-export function checkEnd(state: SealahState): { ended: boolean; winner: Team | null } {
+export function checkEnd(state: SualahState): { ended: boolean; winner: Team | null } {
   let monsters = 0;
   let village = 0;
   for (const p of state.players) {
@@ -274,7 +274,7 @@ export function checkEnd(state: SealahState): { ended: boolean; winner: Team | n
  * Function when the timer expires OR when the phase is complete early
  * (isPhaseComplete). win_check is folded in here — the engine never rests in it.
  */
-export function onPhaseTimeout(state: SealahState): SealahState {
+export function onPhaseTimeout(state: SualahState): SualahState {
   const s = clone(state);
   switch (s.phase) {
     case "role_reveal":
@@ -302,7 +302,7 @@ export function onPhaseTimeout(state: SealahState): SealahState {
   }
 }
 
-function enterNight(s: SealahState, round: number): SealahState {
+function enterNight(s: SualahState, round: number): SualahState {
   s.round = round;
   s.phase = "night";
   s.night = freshNight();
@@ -311,21 +311,21 @@ function enterNight(s: SealahState, round: number): SealahState {
   return s;
 }
 
-function enterDiscussion(s: SealahState): SealahState {
+function enterDiscussion(s: SualahState): SualahState {
   s.phase = "discussion";
   s.votes = {};
   s.runoffCandidates = null;
   return s;
 }
 
-function enterVote(s: SealahState): SealahState {
+function enterVote(s: SualahState): SualahState {
   s.phase = "vote";
   s.votes = {};
   s.runoffCandidates = null;
   return s;
 }
 
-function resolveNight(s: SealahState): SealahState {
+function resolveNight(s: SualahState): SualahState {
   // Tally monster picks: only non-null picks at living targets count (§7).
   const counts = new Map<PlayerId, number>();
   for (const mid of aliveMonsterIds(s)) {
@@ -376,7 +376,7 @@ function resolveNight(s: SealahState): SealahState {
   return s;
 }
 
-function resolveDay(s: SealahState, isRunoff: boolean): SealahState {
+function resolveDay(s: SualahState, isRunoff: boolean): SualahState {
   const { eliminatedId, tied } = tallyDayVotes(s, isRunoff ? s.runoffCandidates : null);
 
   if (eliminatedId) {
@@ -435,7 +435,7 @@ function resolveDay(s: SealahState, isRunoff: boolean): SealahState {
  * - multiple tied top players → returned in `tied` for the caller to runoff.
  */
 function tallyDayVotes(
-  s: SealahState,
+  s: SualahState,
   restrictTo: PlayerId[] | null,
 ): { eliminatedId: PlayerId | null; tied: PlayerId[] } {
   const playerCounts = new Map<PlayerId, number>();
@@ -461,13 +461,13 @@ function tallyDayVotes(
   return { eliminatedId: null, tied: top.sort() };
 }
 
-function endOrElse(s: SealahState, next: () => SealahState): SealahState {
+function endOrElse(s: SualahState, next: () => SualahState): SualahState {
   const end = checkEnd(s);
   if (end.ended) return endGame(s, end.winner!);
   return next();
 }
 
-function endGame(s: SealahState, winner: Team): SealahState {
+function endGame(s: SualahState, winner: Team): SualahState {
   s.winner = winner;
   s.phase = "ended";
   for (const p of s.players) p.roleRevealed = true; // all roles laid bare (§7)
@@ -482,7 +482,7 @@ function endGame(s: SealahState, winner: Team): SealahState {
  * Edge Function can advance before the deadline. Disconnected players never
  * block (their turn is skipped, §7).
  */
-export function isPhaseComplete(state: SealahState): boolean {
+export function isPhaseComplete(state: SualahState): boolean {
   const s = state;
   if (s.phase === "night") {
     const monstersReady = s.players
@@ -502,7 +502,7 @@ export function isPhaseComplete(state: SealahState): boolean {
   return false; // role_reveal / dawn / discussion / execution run on the timer
 }
 
-export function phaseDurationMs(state: SealahState): number | null {
+export function phaseDurationMs(state: SualahState): number | null {
   const x = state.settings;
   switch (state.phase) {
     case "role_reveal":
@@ -532,7 +532,7 @@ export function phaseDurationMs(state: SealahState): number | null {
 // ── Projections: the three-layer split (§4.1) ────────────────────────────────
 
 /** Safe-to-broadcast public projection. Roles appear only once revealed. */
-export function derivePublicState(state: SealahState): PublicState {
+export function derivePublicState(state: SualahState): PublicState {
   const players: PublicPlayer[] = state.players.map((p) => {
     const pub: PublicPlayer = { id: p.id, alive: p.alive, connected: p.connected };
     if (p.roleRevealed) pub.role = p.role;
@@ -555,7 +555,7 @@ export function derivePublicState(state: SealahState): PublicState {
 }
 
 /** The private secret written to player_secrets for one player (owner-only). */
-export function derivePlayerSecret(state: SealahState, playerId: PlayerId): PlayerSecret {
+export function derivePlayerSecret(state: SualahState, playerId: PlayerId): PlayerSecret {
   const p = getPlayer(state, playerId);
   switch (p.role) {
     case "ghoul":
@@ -580,7 +580,7 @@ export function derivePlayerSecret(state: SealahState, playerId: PlayerId): Play
  * Omniscient view for ghost mode (eliminated players, §7). Carries every role —
  * delivered ONLY to a verified-dead caller via an Edge Function, never broadcast.
  */
-export function deriveGhostView(state: SealahState): {
+export function deriveGhostView(state: SualahState): {
   players: { id: PlayerId; role: Role; alive: boolean }[];
   log: GameEvent[];
 } {

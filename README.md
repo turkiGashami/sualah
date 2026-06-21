@@ -1,4 +1,4 @@
-# سُعلاة (Sealah)
+# سُعلاة (Sualah)
 
 لعبة جلسات ويب عربية بأدوار خفية بثيم أساطير الجزيرة — وحوش (غيلان) متخفّون بين
 أهل الديرة. شاشة مشتركة (TV) للأجواء والمسرح، وجوّالات للدور السري والقدرات
@@ -25,7 +25,7 @@ pnpm e2e                     # جلسة Playwright كاملة
 - **النواة:** `packages/game-core` — TypeScript نقي، state machine قابلة
   لإعادة الإنتاج (seed)، بلا I/O.
 
-راجع [CLAUDE.md](CLAUDE.md) للقواعد الكاملة و[الـ brief](Sealah-BRIEF-v1.md)
+راجع [CLAUDE.md](CLAUDE.md) للقواعد الكاملة و[الـ brief](Sualah-BRIEF-v1.md)
 للمواصفة.
 
 ## الحالة

@@ -1,4 +1,4 @@
-// Public surface of @sealah/game-core.
+// Public surface of @sualah/game-core.
 
 export * from "./types.js";
 export * from "./rng.js";
@@ -36,7 +36,7 @@ import {
  * distribution), reduce (night abilities / voting), onPhaseTimeout, checkEnd —
  * plus the projections and helpers Edge Functions need.
  */
-export const sealahModule = {
+export const sualahModule = {
   init,
   reduce,
   onPhaseTimeout,

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { PublicState, PlayerSecret } from "@sealah/game-core";
+import type { PublicState, PlayerSecret } from "@sualah/game-core";
 
 export interface GhostView {
   players: { id: string; role: string; alive: boolean }[];

@@ -7,15 +7,15 @@ import {
   type PlayerId,
   type PlayerRuntime,
   type Role,
-  type SealahState,
+  type SualahState,
   type SeerResult,
 } from "../types.js";
 
 export function stateWith(
   roles: Record<PlayerId, Role>,
   phase: Phase = "night",
-  overrides: Partial<SealahState> = {},
-): SealahState {
+  overrides: Partial<SualahState> = {},
+): SualahState {
   const players: PlayerRuntime[] = Object.entries(roles).map(([id, role]) => ({
     id,
     role,
@@ -51,7 +51,7 @@ export function ids(n: number): PlayerId[] {
   return Array.from({ length: n }, (_, i) => `p${i + 1}`);
 }
 
-export function byId(s: SealahState, id: PlayerId): PlayerRuntime {
+export function byId(s: SualahState, id: PlayerId): PlayerRuntime {
   const p = s.players.find((x) => x.id === id);
   if (!p) throw new Error(`no player ${id}`);
   return p;

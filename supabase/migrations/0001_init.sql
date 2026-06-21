@@ -1,5 +1,5 @@
 -- ════════════════════════════════════════════════════════════════════════════
--- Sealah — initial schema, RLS, and public projections.
+-- Sualah — initial schema, RLS, and public projections.
 --
 -- Invariant #1 (§4.1): no client may EVER read
 --   • game_sessions.state            (roles, night targets, seer results)
@@ -51,7 +51,7 @@ create index players_room on players (room_id);
 create table game_sessions (
   id uuid primary key default gen_random_uuid(),
   room_id uuid not null references rooms (id) on delete cascade,
-  game_type text not null default 'sealah',
+  game_type text not null default 'sualah',
   phase text not null check (phase in (
     'role_reveal', 'night', 'dawn', 'discussion', 'vote', 'runoff', 'execution', 'win_check', 'ended'
   )),

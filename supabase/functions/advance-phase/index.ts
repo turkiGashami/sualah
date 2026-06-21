@@ -4,7 +4,7 @@
 import { preflight, json, fail } from "../_shared/http.ts";
 import { admin, getUserId } from "../_shared/supabase.ts";
 import { nextDeadline, persistAndBroadcast, log } from "../_shared/engine.ts";
-import { sealahModule } from "../_shared/game-core.js";
+import { sualahModule } from "../_shared/game-core.js";
 import { advanceBody } from "../_shared/validate.ts";
 
 const GRACE_MS = 2000;
@@ -37,14 +37,14 @@ Deno.serve(async (req) => {
 
     const now = Date.now();
     const deadlineMs = session.data.phase_deadline_at ? Date.parse(session.data.phase_deadline_at) : null;
-    const complete = sealahModule.isPhaseComplete(session.data.state);
+    const complete = sualahModule.isPhaseComplete(session.data.state);
     // Block only if the deadline is clearly in the future and the phase isn't
     // already complete. The grace lets callers fire up to 2s early.
     if (deadlineMs != null && now < deadlineMs - GRACE_MS && !complete) {
       return json({ ok: true, advanced: false, reason: "not_yet" });
     }
 
-    const advancedState = sealahModule.onPhaseTimeout(session.data.state);
+    const advancedState = sualahModule.onPhaseTimeout(session.data.state);
     const deadline = nextDeadline(advancedState, now);
     const applied = await persistAndBroadcast(
       db,

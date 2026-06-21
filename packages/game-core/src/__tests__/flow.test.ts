@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { init, reduce, onPhaseTimeout, derivePublicState } from "../module.js";
-import { SKIP, TEAM_OF, type PlayerId, type SealahState } from "../types.js";
+import { SKIP, TEAM_OF, type PlayerId, type SualahState } from "../types.js";
 import { ids } from "./helpers.js";
 
-const aliveIds = (s: SealahState, pred: (role: string) => boolean): PlayerId[] =>
+const aliveIds = (s: SualahState, pred: (role: string) => boolean): PlayerId[] =>
   s.players.filter((p) => p.alive && pred(p.role)).map((p) => p.id).sort();
 
 /**
@@ -12,7 +12,7 @@ const aliveIds = (s: SealahState, pred: (role: string) => boolean): PlayerId[] =
  * lowest-id living villager; guard covers someone else. Deterministic and
  * guaranteed to terminate with a village win.
  */
-function autoPlay(start: SealahState): SealahState {
+function autoPlay(start: SualahState): SualahState {
   let s = start;
   for (let guard = 0; s.phase !== "ended"; guard++) {
     if (guard > 500) throw new Error(`did not terminate (stuck in ${s.phase})`);

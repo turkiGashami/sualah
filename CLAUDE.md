@@ -1,4 +1,4 @@
-# Sealah — Context for Claude Code
+# Sualah — Context for Claude Code
 
 ## Project Overview
 Arabic web party game: hidden-roles social deduction themed on Arabian
@@ -45,7 +45,7 @@ Anonymous/Email Auth + Realtime + Edge Functions/Deno), packages/game-core
 - Unit: `pnpm test` | E2E: `pnpm e2e` | Pen-test: `pnpm pentest`
 
 ## Repo Layout
-- `packages/game-core` — pure TS state machine (`sealahModule`) + tests.
+- `packages/game-core` — pure TS state machine (`sualahModule`) + tests.
   Build & test this FIRST; no I/O, seed-injected RNG.
 - `apps/web` — Next.js: `app/host`, `app/tv/[code]`, `app/play/[code]`, `lib/`.
 - `supabase/migrations` — schema + RLS + `session_public` view.

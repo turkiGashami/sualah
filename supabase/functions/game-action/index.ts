@@ -5,7 +5,7 @@ import { preflight, json, fail } from "../_shared/http.ts";
 import { admin, getUserId } from "../_shared/supabase.ts";
 import { broadcast } from "../_shared/broadcast.ts";
 import { nextDeadline, persistAndBroadcast, refreshSecrets, log } from "../_shared/engine.ts";
-import { sealahModule, GameError } from "../_shared/game-core.js";
+import { sualahModule, GameError } from "../_shared/game-core.js";
 import { gameActionBody } from "../_shared/validate.ts";
 
 Deno.serve(async (req) => {
@@ -34,7 +34,7 @@ Deno.serve(async (req) => {
     if (body.type === "ghost_view") {
       if (!me) return fail("not_in_game", 403);
       if (!meRuntime || meRuntime.alive) return fail("not_a_ghost", 403);
-      return json({ ghost: sealahModule.deriveGhostView(state) });
+      return json({ ghost: sualahModule.deriveGhostView(state) });
     }
 
     // ── ghost reaction: broadcast with a random 2–5s delay, no identity (§7) ──
@@ -83,14 +83,14 @@ Deno.serve(async (req) => {
     for (let attempt = 0; attempt < 8 && newRev < 0; attempt++) {
       try {
         // deno-lint-ignore no-explicit-any
-        newState = sealahModule.reduce(curState, action as any);
+        newState = sualahModule.reduce(curState, action as any);
       } catch (e) {
         if (e instanceof GameError) return fail(e.code, 400);
         return fail("bad_action", 400, String(e));
       }
       const upd: Record<string, unknown> = {
         state: newState,
-        public_state: sealahModule.derivePublicState(newState),
+        public_state: sualahModule.derivePublicState(newState),
         phase: newState.phase,
         round: newState.round,
         rev: curRev + 1,
@@ -129,7 +129,7 @@ Deno.serve(async (req) => {
     // Owner-only secret feedback for the actor (e.g. the seer's instant result).
     let mySecret: unknown;
     if (me) {
-      mySecret = sealahModule.derivePlayerSecret(newState, me.id);
+      mySecret = sualahModule.derivePlayerSecret(newState, me.id);
       await db
         .from("player_secrets")
         .update({ secret: mySecret, updated_at: new Date().toISOString() })
@@ -144,7 +144,7 @@ Deno.serve(async (req) => {
       await db.from("rooms").update({ status: "ended", ended_at: new Date().toISOString() }).eq("id", room.data.id);
       await refreshSecrets(db, room.data.id, body.sessionId, newState);
       await broadcast(room.data.code, [
-        { event: "state_update", payload: sealahModule.derivePublicState(newState) },
+        { event: "state_update", payload: sualahModule.derivePublicState(newState) },
         { event: "secret_changed", payload: {} },
       ]);
       return json({ ok: true, ended: true, secret: mySecret });
@@ -152,13 +152,13 @@ Deno.serve(async (req) => {
 
     // Early advance when everyone required has acted (§4.2).
     let advanced = false;
-    if (sealahModule.isPhaseComplete(newState)) {
-      const advancedState = sealahModule.onPhaseTimeout(newState);
+    if (sualahModule.isPhaseComplete(newState)) {
+      const advancedState = sualahModule.onPhaseTimeout(newState);
       const deadline = nextDeadline(advancedState, Date.now());
       advanced = await persistAndBroadcast(db, roomRef, body.sessionId, advancedState, deadline, newRev);
     } else if (body.type === "host_remove") {
       // A removal changes the public roster even without a phase change.
-      await broadcast(room.data.code, [{ event: "state_update", payload: sealahModule.derivePublicState(newState) }]);
+      await broadcast(room.data.code, [{ event: "state_update", payload: sualahModule.derivePublicState(newState) }]);
     }
 
     return json({ ok: true, advanced, secret: mySecret });

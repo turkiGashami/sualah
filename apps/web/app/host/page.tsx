@@ -7,7 +7,7 @@ import { subscribeRoom } from "@/lib/realtime";
 import { Qr } from "@/components/Qr";
 import { SaduBand } from "@/components/art";
 import { ui } from "@/lib/strings";
-import { DISCUSSION_OPTIONS_MS } from "@sealah/game-core";
+import { DISCUSSION_OPTIONS_MS } from "@sualah/game-core";
 
 export default function HostPage() {
   const [code, setCode] = useState<string | null>(null);

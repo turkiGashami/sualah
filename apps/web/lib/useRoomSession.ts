@@ -4,7 +4,7 @@ import { ensureAnon } from "./auth";
 import { fetchRoomByCode, fetchSessionByRoom, fetchPlayers, type PlayerRow, type SessionPublicRow } from "./data";
 import { subscribeRoom } from "./realtime";
 import { api } from "./api";
-import type { PublicState } from "@sealah/game-core";
+import type { PublicState } from "@sualah/game-core";
 
 interface Options {
   advanceOnExpire?: boolean;

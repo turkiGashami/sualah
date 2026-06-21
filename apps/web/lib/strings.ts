@@ -1,5 +1,5 @@
 // Arabic copy + labels for all surfaces, in one file (§ code conventions).
-import type { Role, Phase } from "@sealah/game-core";
+import type { Role, Phase } from "@sualah/game-core";
 
 export const roleLabel: Record<Role, string> = {
   villager: "مواطن",

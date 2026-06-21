@@ -6,9 +6,9 @@ import { fetchMySecret } from "@/lib/data";
 import { api, ApiError } from "@/lib/api";
 import { ui, roleLabel, roleTagline, phaseLabel } from "@/lib/strings";
 import { RoleMark, Crescent, SaduDiamond, SaduBand } from "@/components/art";
-import type { Phase, PlayerSecret, PublicPlayer, Role } from "@sealah/game-core";
+import type { Phase, PlayerSecret, PublicPlayer, Role } from "@sualah/game-core";
 
-const playerKey = (code: string) => `sealah:player:${code}`;
+const playerKey = (code: string) => `sualah:player:${code}`;
 type Tone = "ink" | "oxblood" | "olive";
 const toneClass: Record<Tone, string> = { ink: "text-ink", oxblood: "text-oxblood", olive: "text-olive" };
 

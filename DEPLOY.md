@@ -1,21 +1,21 @@
 # نشر سُعلاة على CranL (Application from Git)
 
-المستودع: **https://github.com/turkiGashami/sealah** (خاص)
+المستودع: **https://github.com/turkiGashami/sualah** (خاص)
 الواجهة: Next.js 14 (pnpm monorepo، التطبيق في `apps/web`). الـ backend كامل على Supabase
 (منشور مسبقاً) — CranL يستضيف الواجهة فقط.
 
 ## الخطوات في لوحة CranL
 
-1. **اربط GitHub:** بوّب **GitHub** في CranL وامنح وصولاً لمستودع `sealah`
+1. **اربط GitHub:** بوّب **GitHub** في CranL وامنح وصولاً لمستودع `sualah`
    (لأنه خاص). أو اجعله عاماً إن كان أسهل.
-2. **New Application → Application from Git → اختر `turkiGashami/sealah`.**
+2. **New Application → Application from Git → اختر `turkiGashami/sualah`.**
 3. **إعدادات البناء** (مهمة لأنه monorepo بـ pnpm):
    | الحقل | القيمة |
    |------|--------|
    | Root directory | `/` (جذر المستودع — لا تختر `apps/web`) |
    | Install command | `pnpm install --frozen-lockfile` |
-   | Build command | `pnpm --filter @sealah/web build` |
-   | Start command | `pnpm --filter @sealah/web start` |
+   | Build command | `pnpm --filter @sualah/web build` |
+   | Start command | `pnpm --filter @sualah/web start` |
    | Node version | 20 (مثبّت في `.nvmrc`) |
 
    التطبيق يستمع على المنفذ من متغيّر `PORT` (يحقنه CranL تلقائياً).

@@ -1,4 +1,4 @@
-// Bundle @sealah/game-core into a single Deno-friendly ESM module that the
+// Bundle @sualah/game-core into a single Deno-friendly ESM module that the
 // Edge Functions import. This keeps the game rules in ONE place (game-core) and
 // reuses them verbatim server-side — no re-implementation. esbuild resolves the
 // package's ".js" import specifiers to their ".ts" sources automatically.

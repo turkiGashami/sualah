@@ -6,7 +6,7 @@ import { sound } from "@/lib/sounds";
 import { Qr } from "@/components/Qr";
 import { SaduBand, Crescent, Stars, RoleMark, Brand, SaduDiamond } from "@/components/art";
 import { ui, phaseLabel, roleLabel } from "@/lib/strings";
-import type { Phase, Role } from "@sealah/game-core";
+import type { Phase, Role } from "@sualah/game-core";
 
 interface Floater {
   id: number;

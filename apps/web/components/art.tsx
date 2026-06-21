@@ -1,6 +1,6 @@
-// Hand-built SVG art for Sealah — Sadu (Bedouin weave) motifs + per-role marks.
+// Hand-built SVG art for Sualah — Sadu (Bedouin weave) motifs + per-role marks.
 // Role marks use currentColor so Tailwind text-* controls the tint.
-import type { Role } from "@sealah/game-core";
+import type { Role } from "@sualah/game-core";
 
 type SvgProps = { className?: string };
 

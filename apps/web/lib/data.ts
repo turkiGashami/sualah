@@ -1,5 +1,5 @@
 import { supabase } from "./supabase";
-import type { PublicState, PlayerSecret } from "@sealah/game-core";
+import type { PublicState, PlayerSecret } from "@sualah/game-core";
 
 export interface SessionPublicRow {
   id: string;

@@ -1,7 +1,7 @@
 // Shared persistence + broadcast for the writer functions. The game RULES live
 // only in game-core (imported via the generated bundle); this file just moves
 // the resulting state into Postgres and onto the realtime channel.
-import { sealahModule } from "./game-core.js";
+import { sualahModule } from "./game-core.js";
 import { broadcast } from "./broadcast.ts";
 import type { SupabaseClient } from "jsr:@supabase/supabase-js@2";
 
@@ -13,7 +13,7 @@ export function log(o: Record<string, unknown>): void {
 }
 
 export function nextDeadline(state: State, nowMs: number): string | null {
-  const dur = sealahModule.phaseDurationMs(state);
+  const dur = sualahModule.phaseDurationMs(state);
   return dur != null ? new Date(nowMs + dur).toISOString() : null;
 }
 
@@ -37,7 +37,7 @@ export async function refreshSecrets(
       session_id: sessionId,
       player_id: p.id,
       auth_uid: authBy.get(p.id),
-      secret: sealahModule.derivePlayerSecret(state, p.id),
+      secret: sualahModule.derivePlayerSecret(state, p.id),
       updated_at: new Date().toISOString(),
     }));
   if (rows.length) await db.from("player_secrets").upsert(rows);
@@ -60,7 +60,7 @@ export async function persistAndBroadcast(
   const ended = state.phase === "ended";
   const update: Record<string, unknown> = {
     state,
-    public_state: sealahModule.derivePublicState(state),
+    public_state: sualahModule.derivePublicState(state),
     phase: state.phase,
     round: state.round,
     phase_deadline_at: deadline,
@@ -81,7 +81,7 @@ export async function persistAndBroadcast(
     await db.from("rooms").update({ status: "ended", ended_at: new Date().toISOString() }).eq("id", room.id);
   }
   await broadcast(room.code, [
-    { event: "state_update", payload: sealahModule.derivePublicState(state) },
+    { event: "state_update", payload: sualahModule.derivePublicState(state) },
     { event: "secret_changed", payload: {} }, // no content, no identity (§6)
   ]);
   return true;

@@ -1,4 +1,4 @@
-// Pure domain types for Sealah. No I/O, no Date, no Math.random anywhere in
+// Pure domain types for Sualah. No I/O, no Date, no Math.random anywhere in
 // game-core — see rng.ts for deterministic, seed-driven randomness.
 
 export type Role = "villager" | "seer" | "guard" | "ghoul";
@@ -112,7 +112,7 @@ export type GameEvent =
  * Contains every secret (roles, night targets, seer results) — must NEVER be
  * broadcast or exposed to any client. See derivePublicState() for the safe view.
  */
-export interface SealahState {
+export interface SualahState {
   version: 1;
   seed: string;
   /** Advances every time randomness is consumed; makes replays identical. */

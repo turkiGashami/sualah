@@ -4,7 +4,7 @@ import { preflight, json, fail } from "../_shared/http.ts";
 import { admin, getUserId } from "../_shared/supabase.ts";
 import { broadcast } from "../_shared/broadcast.ts";
 import { nextDeadline, log } from "../_shared/engine.ts";
-import { sealahModule } from "../_shared/game-core.js";
+import { sualahModule } from "../_shared/game-core.js";
 import { roomsBody } from "../_shared/validate.ts";
 
 // Unambiguous alphabet (no 0/O/1/I/L) for human-typed 4-char codes.
@@ -117,7 +117,7 @@ Deno.serve(async (req) => {
       const seed = crypto.randomUUID();
       let state;
       try {
-        state = sealahModule.init({ seed, playerIds: ids, settings: room.data.settings });
+        state = sualahModule.init({ seed, playerIds: ids, settings: room.data.settings });
       } catch (e) {
         return fail("init_failed", 400, String(e));
       }
@@ -129,7 +129,7 @@ Deno.serve(async (req) => {
           phase: state.phase,
           round: state.round,
           state,
-          public_state: sealahModule.derivePublicState(state),
+          public_state: sualahModule.derivePublicState(state),
           settings: room.data.settings,
           phase_deadline_at: deadline,
         })
@@ -142,7 +142,7 @@ Deno.serve(async (req) => {
         session_id: sess.data.id,
         player_id: p.id,
         auth_uid: authBy.get(p.id),
-        secret: sealahModule.derivePlayerSecret(state, p.id),
+        secret: sualahModule.derivePlayerSecret(state, p.id),
       }));
       const secErr = (await db.from("player_secrets").insert(secretRows)).error;
       if (secErr) return fail("secrets_failed", 400, secErr.message);
@@ -150,7 +150,7 @@ Deno.serve(async (req) => {
       await db.from("rooms").update({ status: "active" }).eq("id", body.roomId);
       await broadcast(room.data.code, [
         { event: "game_started", payload: { sessionId: sess.data.id } },
-        { event: "state_update", payload: sealahModule.derivePublicState(state) },
+        { event: "state_update", payload: sualahModule.derivePublicState(state) },
         { event: "secret_changed", payload: {} },
       ]);
       log({ fn: "rooms", action: "start", roomCode: room.data.code, sessionId: sess.data.id, players: ids.length });

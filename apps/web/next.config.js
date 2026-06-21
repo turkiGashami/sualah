@@ -8,7 +8,7 @@ const nextConfig = {
   // Trace deps from the monorepo root so workspace files are bundled.
   experimental: { outputFileTracingRoot: path.join(__dirname, "../../") },
   // game-core is consumed as raw TS from the workspace.
-  transpilePackages: ["@sealah/game-core"],
+  transpilePackages: ["@sualah/game-core"],
   webpack: (config) => {
     // Resolve the package's ".js" import specifiers to their ".ts" sources.
     config.resolve.extensionAlias = {
