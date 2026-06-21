@@ -27,4 +27,4 @@ export const gameActionBody = z.discriminatedUnion("type", [
   z.object({ type: z.literal("reaction"), sessionId: z.string().uuid(), emoji: z.enum(["😱", "🔥", "😂", "👀"]) }),
 ]);
 
-export const advanceBody = z.object({ sessionId: z.string().uuid() });
+export const advanceBody = z.object({ sessionId: z.string().uuid(), force: z.boolean().optional() });

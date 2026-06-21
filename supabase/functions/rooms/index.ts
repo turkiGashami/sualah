@@ -4,7 +4,7 @@ import { preflight, json, fail } from "../_shared/http.ts";
 import { admin, getUserId } from "../_shared/supabase.ts";
 import { broadcast } from "../_shared/broadcast.ts";
 import { nextDeadline, log } from "../_shared/engine.ts";
-import { sualahModule } from "../_shared/game-core.js";
+import { sualahModule, DEFAULT_SETTINGS } from "../_shared/game-core.js";
 import { roomsBody } from "../_shared/validate.ts";
 
 // Unambiguous alphabet (no 0/O/1/I/L) for human-typed 4-char codes.
@@ -96,6 +96,53 @@ Deno.serve(async (req) => {
     if (body.action === "update_settings") {
       const merged = { ...room.data.settings, ...body.settings };
       await db.from("rooms").update({ settings: merged }).eq("id", body.roomId);
+
+      // Apply live to an in-progress session (host editing timers mid-game).
+      const live = (
+        await db
+          .from("game_sessions")
+          .select("*")
+          .eq("room_id", body.roomId)
+          .neq("phase", "ended")
+          .order("started_at", { ascending: false })
+          .limit(1)
+          .maybeSingle()
+      ).data;
+      if (live) {
+        const PHASE_KEY: Record<string, string> = {
+          role_reveal: "roleRevealMs",
+          night: "nightMs",
+          dawn: "dawnMs",
+          discussion: "discussionMs",
+          vote: "voteMs",
+          runoff: "runoffMs",
+          execution: "executionMs",
+        };
+        const state = live.state;
+        const oldSettings = state.settings ?? {};
+        state.settings = { ...oldSettings, ...body.settings };
+        // Re-anchor the CURRENT phase deadline to the new duration (keeps elapsed
+        // time, adjusts remaining); future phases use the new settings naturally.
+        let deadline = live.phase_deadline_at;
+        const k = PHASE_KEY[live.phase];
+        if (k && typeof body.settings[k] === "number" && live.phase_deadline_at) {
+          const oldDur = oldSettings[k] ?? (DEFAULT_SETTINGS as Record<string, number>)[k];
+          const phaseStart = Date.parse(live.phase_deadline_at) - oldDur;
+          deadline = new Date(phaseStart + body.settings[k]).toISOString();
+        }
+        const upd = await db
+          .from("game_sessions")
+          .update({ state, settings: state.settings, phase_deadline_at: deadline, rev: live.rev + 1 })
+          .eq("id", live.id)
+          .eq("rev", live.rev)
+          .select("id");
+        if ((upd.data?.length ?? 0) > 0) {
+          await broadcast(room.data.code, [
+            { event: "state_update", payload: sualahModule.derivePublicState(state) },
+          ]);
+        }
+      }
+
       await broadcast(room.data.code, [{ event: "lobby_update", payload: { settings: merged } }]);
       return json({ ok: true, settings: merged });
     }

@@ -7,13 +7,12 @@ import { subscribeRoom } from "@/lib/realtime";
 import { Qr } from "@/components/Qr";
 import { SaduBand } from "@/components/art";
 import { ui } from "@/lib/strings";
-import { DISCUSSION_OPTIONS_MS } from "@sualah/game-core";
+import { TimerSettings } from "@/components/TimerSettings";
 
 export default function HostPage() {
   const [code, setCode] = useState<string | null>(null);
   const [roomId, setRoomId] = useState<string | null>(null);
   const [players, setPlayers] = useState<PlayerRow[]>([]);
-  const [discussionMs, setDiscussionMs] = useState(180_000);
   const [error, setError] = useState<string | null>(null);
   const [starting, setStarting] = useState(false);
 
@@ -70,11 +69,6 @@ export default function HostPage() {
       setError(e instanceof ApiError ? e.code : String(e));
       setStarting(false);
     }
-  }
-
-  async function changeDiscussion(ms: number) {
-    setDiscussionMs(ms);
-    if (roomId) await api.updateSettings(roomId, { discussionMs: ms });
   }
 
   if (error) {
@@ -134,15 +128,8 @@ export default function HostPage() {
         </section>
 
         <section className="card">
-          <h2 className="mb-3 font-title text-2xl text-ink">{ui.settings}</h2>
-          <p className="mb-2 text-sm font-bold text-ash">{ui.discussionMin}</p>
-          <div className="flex gap-2">
-            {DISCUSSION_OPTIONS_MS.map((ms) => (
-              <button key={ms} onClick={() => changeDiscussion(ms)} className={`pill ${discussionMs === ms ? "bg-oxblood text-bone" : ""}`}>
-                {ms / 60_000} دقائق
-              </button>
-            ))}
-          </div>
+          <h2 className="mb-3 font-title text-2xl text-ink">{ui.settings} — مدة كل مرحلة</h2>
+          <TimerSettings roomId={roomId!} />
         </section>
 
         <div className="mt-auto flex flex-col gap-3">

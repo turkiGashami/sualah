@@ -57,5 +57,6 @@ export const api = {
       sessionId,
     }),
   reaction: (sessionId: string, emoji: string) => invoke("game-action", { type: "reaction", sessionId, emoji }),
-  advance: (sessionId: string) => invoke<{ advanced: boolean; phase?: string }>("advance-phase", { sessionId }),
+  advance: (sessionId: string, force?: boolean) =>
+    invoke<{ advanced: boolean; phase?: string }>("advance-phase", { sessionId, ...(force ? { force: true } : {}) }),
 };

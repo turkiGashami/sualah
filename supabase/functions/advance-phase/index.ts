@@ -18,7 +18,7 @@ Deno.serve(async (req) => {
 
     const parsed = advanceBody.safeParse(await req.json().catch(() => null));
     if (!parsed.success) return fail("bad_request", 400, parsed.error.message);
-    const { sessionId } = parsed.data;
+    const { sessionId, force } = parsed.data;
     const db = admin();
 
     const session = await db.from("game_sessions").select("*").eq("id", sessionId).single();
@@ -38,9 +38,11 @@ Deno.serve(async (req) => {
     const now = Date.now();
     const deadlineMs = session.data.phase_deadline_at ? Date.parse(session.data.phase_deadline_at) : null;
     const complete = sualahModule.isPhaseComplete(session.data.state);
-    // Block only if the deadline is clearly in the future and the phase isn't
-    // already complete. The grace lets callers fire up to 2s early.
-    if (deadlineMs != null && now < deadlineMs - GRACE_MS && !complete) {
+    // The host may FORCE-skip the current phase at any time. Otherwise block
+    // only if the deadline is clearly in the future and the phase isn't already
+    // complete (the grace lets callers fire up to 2s early).
+    const forced = force === true && isHost;
+    if (!forced && deadlineMs != null && now < deadlineMs - GRACE_MS && !complete) {
       return json({ ok: true, advanced: false, reason: "not_yet" });
     }
 

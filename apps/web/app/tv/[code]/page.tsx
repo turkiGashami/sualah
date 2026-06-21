@@ -5,6 +5,8 @@ import { useCountdown } from "@/lib/useCountdown";
 import { sound } from "@/lib/sounds";
 import { Qr } from "@/components/Qr";
 import { SaduBand, Crescent, Stars, RoleMark, Brand, SaduDiamond } from "@/components/art";
+import { TimerSettings } from "@/components/TimerSettings";
+import { api } from "@/lib/api";
 import { ui, phaseLabel, roleLabel } from "@/lib/strings";
 import type { Phase, Role } from "@sualah/game-core";
 
@@ -27,6 +29,7 @@ export default function TvPage({ params }: { params: { code: string } }) {
   const code = params.code.toUpperCase();
   const [floaters, setFloaters] = useState<Floater[]>([]);
   const [audioOn, setAudioOn] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   const floatId = useRef(0);
 
   const room = useRoomSession(code, {
@@ -55,6 +58,7 @@ export default function TvPage({ params }: { params: { code: string } }) {
   const inLobby = !room.sessionId || room.status === "lobby";
   const phase = room.phase as Phase | null;
   const dark = isDark(phase, room.pub?.winner);
+  const isHost = !!room.uid && room.uid === room.hostId;
 
   return (
     <main className={`relative flex min-h-screen flex-col overflow-hidden transition-colors duration-700 ${bgClass(phase, room.pub?.winner)}`}>
@@ -75,6 +79,38 @@ export default function TvPage({ params }: { params: { code: string } }) {
           </span>
         ))}
       </div>
+
+      {isHost && !inLobby && (
+        <div className="absolute left-4 top-20 z-40 flex flex-col gap-2">
+          <button
+            onClick={() => setShowSettings(true)}
+            className="rounded-full border-2 border-ink bg-parch px-4 py-2 text-sm font-bold text-ink shadow-hardsm transition active:scale-95"
+          >
+            ⚙ الإعدادات
+          </button>
+          <button
+            onClick={() => room.sessionId && api.advance(room.sessionId, true)}
+            className="rounded-full border-2 border-ink bg-oxblood px-4 py-2 text-sm font-bold text-bone shadow-hardsm transition active:scale-95"
+          >
+            ⏭ تجاوز المرحلة
+          </button>
+        </div>
+      )}
+
+      {showSettings && isHost && room.roomId && (
+        <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-ink/70 p-4" onClick={() => setShowSettings(false)}>
+          <div className="my-8 w-full max-w-md rounded-lg border-2 border-ink bg-sand p-5 shadow-hard" onClick={(e) => e.stopPropagation()}>
+            <div className="mb-3 flex items-center justify-between">
+              <h2 className="font-title text-2xl text-ink">مدة المراحل</h2>
+              <button onClick={() => setShowSettings(false)} className="font-bold text-ink" aria-label="إغلاق">
+                ✕
+              </button>
+            </div>
+            <TimerSettings roomId={room.roomId} />
+            <p className="mt-3 text-xs text-ash">يُطبَّق فوراً على الجولة الحالية والقادمة.</p>
+          </div>
+        </div>
+      )}
 
       <div className="relative z-10 flex flex-1 flex-col">
         {inLobby ? <Lobby code={code} joinUrl={joinUrl} players={room.players.map((p) => p.nickname)} /> : <GameStage room={room} secondsLeft={secondsLeft} dark={dark} />}
