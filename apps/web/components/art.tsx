@@ -17,23 +17,31 @@ export function SaduBand({
   diamond?: string;
   accent?: string;
 }) {
-  const id = `sadu-${diamond.slice(1)}-${bg.slice(1)}-${accent.slice(1)}`;
+  // One square tile, repeated horizontally at its natural aspect ratio (scaled
+  // to the band height) — so the diamonds never stretch on wide screens.
+  const tile =
+    `<svg xmlns='http://www.w3.org/2000/svg' width='48' height='48'>` +
+    `<rect width='48' height='48' fill='${bg}'/>` +
+    `<path d='M24 3L45 24L24 45L3 24Z' fill='${diamond}'/>` +
+    `<path d='M24 12L36 24L24 36L12 24Z' fill='${bg}'/>` +
+    `<path d='M24 18L30 24L24 30L18 24Z' fill='${accent}'/>` +
+    `<rect x='0' y='20' width='8' height='8' fill='${accent}'/>` +
+    `<rect x='40' y='20' width='8' height='8' fill='${accent}'/>` +
+    `<path d='M24 0L30 6L24 12L18 6Z' fill='${accent}'/>` +
+    `<path d='M24 36L30 42L24 48L18 42Z' fill='${accent}'/>` +
+    `</svg>`;
   return (
-    <svg width="100%" viewBox="0 0 680 48" preserveAspectRatio="none" className={className} aria-hidden>
-      <defs>
-        <pattern id={id} width="48" height="48" patternUnits="userSpaceOnUse">
-          <rect width="48" height="48" fill={bg} />
-          <path d="M24 3 L45 24 L24 45 L3 24 Z" fill={diamond} />
-          <path d="M24 12 L36 24 L24 36 L12 24 Z" fill={bg} />
-          <path d="M24 18 L30 24 L24 30 L18 24 Z" fill={accent} />
-          <rect x="0" y="20" width="8" height="8" fill={accent} />
-          <rect x="40" y="20" width="8" height="8" fill={accent} />
-          <path d="M24 0 L30 6 L24 12 L18 6 Z" fill={accent} />
-          <path d="M24 36 L30 42 L24 48 L18 42 Z" fill={accent} />
-        </pattern>
-      </defs>
-      <rect width="680" height="48" fill={`url(#${id})`} />
-    </svg>
+    <div
+      className={className}
+      aria-hidden
+      style={{
+        backgroundColor: bg,
+        backgroundImage: `url("data:image/svg+xml,${encodeURIComponent(tile)}")`,
+        backgroundRepeat: "repeat-x",
+        backgroundPosition: "center",
+        backgroundSize: "auto 100%",
+      }}
+    />
   );
 }
 
