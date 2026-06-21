@@ -1,0 +1,25 @@
+name: Deploy to CranL
+
+# Auto-deploy on every push to main by calling CranL's Deploy Hook.
+# Setup: in CranL find the app's "Deploy Hook" / "Webhook" URL, then add it as a
+# GitHub repo secret named CRANL_DEPLOY_HOOK (Settings → Secrets and variables →
+# Actions → New repository secret). Until that secret is set, this job no-ops.
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger CranL deploy
+        env:
+          HOOK: ${{ secrets.CRANL_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "::warning::CRANL_DEPLOY_HOOK not set — skipping. Add the secret to enable auto-deploy."
+            exit 0
+          fi
+          echo "Triggering CranL deploy hook…"
+          curl -fsS -X POST "$HOOK" && echo "✓ deploy triggered"
