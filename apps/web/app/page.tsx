@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ui } from "@/lib/strings";
 import { Brand, SaduBand } from "@/components/art";
+import { HowToPlay } from "@/components/HowToPlay";
 
 export default function Home() {
   const [code, setCode] = useState("");
@@ -58,6 +59,7 @@ export default function Home() {
       </div>
 
       <SaduBand className="h-12 w-full" />
+      <HowToPlay />
     </main>
   );
 }

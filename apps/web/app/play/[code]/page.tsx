@@ -6,6 +6,7 @@ import { fetchMySecret } from "@/lib/data";
 import { api, ApiError } from "@/lib/api";
 import { ui, roleLabel, roleTagline, phaseLabel } from "@/lib/strings";
 import { RoleMark, Crescent, SaduDiamond, SaduBand } from "@/components/art";
+import { HowToPlay } from "@/components/HowToPlay";
 import type { Phase, PlayerSecret, PublicPlayer, Role } from "@sualah/game-core";
 
 const playerKey = (code: string) => `sualah:player:${code}`;
@@ -97,6 +98,7 @@ export default function PlayPage({ params }: { params: { code: string } }) {
       {toast && toast !== "…" && (
         <div className="fixed inset-x-0 bottom-5 mx-auto w-fit rounded-md border-2 border-ink bg-oxblood px-4 py-2 text-sm font-bold text-bone shadow-hardsm">{toast}</div>
       )}
+      <HowToPlay />
     </main>
   );
 }
@@ -166,6 +168,7 @@ function JoinForm({ code, started, onJoined, onError }: { code: string; started:
           </button>
         </form>
       </div>
+      <HowToPlay />
     </main>
   );
 }
