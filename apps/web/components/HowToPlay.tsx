@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { RoleMark, SaduBand } from "./art";
+import { RoleMark, SaduBand, Crescent, SunIcon, TalkIcon, VoteIcon } from "./art";
 import type { Role } from "@sualah/game-core";
 
 const SEEN_KEY = "sualah:intro-seen";
@@ -58,15 +58,15 @@ export function HowToPlay() {
               </Section>
 
               <Section title="مجرى الجولة">
-                <Step e="🌙" t="الليل" d="الدِّيرة تنام. العفاريت تختار ضحيّة، المرّي يقتفي الأثر، العسّاس يحرس — كلٌّ من جواله سرّاً." />
-                <Step e="🌅" t="الفجر" d="تُعلَن ضحيّة الليلة (إن لم يحرسها العسّاس)." />
-                <Step e="🗣️" t="النقاش" d="تكلّموا وجهاً لوجه — مَن المشبوه؟" />
-                <Step e="🗳️" t="التصويت" d="صوّتوا لطرد واحد. المطرود يُكشف دوره للجميع." />
+                <Step icon={<Crescent className="h-6 w-6 text-ink" />} t="الليل" d="الدِّيرة تنام. العفاريت تختار ضحيّة، المرّي يقتفي الأثر، العسّاس يحرس — كلٌّ من جواله سرّاً." />
+                <Step icon={<SunIcon className="h-6 w-6 text-clay" />} t="الفجر" d="تُعلَن ضحيّة الليلة (إن لم يحرسها العسّاس)." />
+                <Step icon={<TalkIcon className="h-6 w-6 text-ink" />} t="النقاش" d="تكلّموا وجهاً لوجه — مَن المشبوه؟" />
+                <Step icon={<VoteIcon className="h-6 w-6 text-ink" />} t="التصويت" d="صوّتوا لطرد واحد. المطرود يُكشف دوره للجميع." />
               </Section>
 
               <Section title="الفوز">
-                <Step e="🏆" t="أهل الديرة" d="يفوزون إذا طُرد كل العفاريت." />
-                <Step e="👹" t="العفاريت" d="يفوزون إذا تساوى عددهم مع الأبرياء." />
+                <Step icon={<RoleMark role="villager" className="h-6 w-6 text-olive" />} t="أهل الديرة" d="يفوزون إذا طُرد كل العفاريت." />
+                <Step icon={<RoleMark role="ghoul" className="h-6 w-6 text-oxblood" />} t="العفاريت" d="يفوزون إذا تساوى عددهم مع الأبرياء." />
               </Section>
 
               <p className="rounded-md border-2 border-ink bg-parch p-3 text-sm font-bold text-ink">
@@ -105,10 +105,10 @@ function RoleRow({ role, name, desc, danger }: { role: Role; name: string; desc:
   );
 }
 
-function Step({ e, t, d }: { e: string; t: string; d: string }) {
+function Step({ icon, t, d }: { icon: React.ReactNode; t: string; d: string }) {
   return (
     <div className="flex items-start gap-3">
-      <span className="text-2xl leading-none">{e}</span>
+      <span className="mt-0.5 shrink-0">{icon}</span>
       <p className="text-ink">
         <span className="font-bold">{t}:</span> <span className="text-ash">{d}</span>
       </p>

@@ -113,6 +113,39 @@ export function EyeMark({ className }: SvgProps) {
   );
 }
 
+// Phase icons (dawn / discussion / vote) — same line style as the role marks.
+export function SunIcon({ className }: SvgProps) {
+  return (
+    <svg viewBox="0 0 64 64" className={className} fill="none" stroke="currentColor" strokeWidth={2.6} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M8 50h48" />
+      <path d="M19 50a13 13 0 0 1 26 0" />
+      <path d="M32 23v-7M15 33l-5-4M49 33l5-4M11 44H5M59 44h-6" />
+    </svg>
+  );
+}
+
+export function TalkIcon({ className }: SvgProps) {
+  return (
+    <svg viewBox="0 0 64 64" className={className} fill="none" stroke="currentColor" strokeWidth={2.6} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M8 16h36a6 6 0 0 1 6 6v14a6 6 0 0 1-6 6H26l-10 8v-8h-2a6 6 0 0 1-6-6V22a6 6 0 0 1 6-6Z" />
+      <circle cx="20" cy="29" r="2.4" fill="currentColor" stroke="none" />
+      <circle cx="30" cy="29" r="2.4" fill="currentColor" stroke="none" />
+      <circle cx="40" cy="29" r="2.4" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+export function VoteIcon({ className }: SvgProps) {
+  return (
+    <svg viewBox="0 0 64 64" className={className} fill="none" stroke="currentColor" strokeWidth={2.6} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M10 30h44v22a2 2 0 0 1-2 2H12a2 2 0 0 1-2-2Z" />
+      <path d="M24 30v-4h16v4" />
+      <rect x="25" y="8" width="14" height="16" rx="1.5" />
+      <path d="M28 16l3 3 5-6" />
+    </svg>
+  );
+}
+
 /* ── Night motifs (for the TV's dark phases) ─────────────────────────────── */
 
 export function Crescent({ className }: SvgProps) {
