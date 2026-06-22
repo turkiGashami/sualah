@@ -202,7 +202,7 @@ function PhaseCenter({ room, dark }: { room: ReturnType<typeof useRoomSession>; 
   const base = dark ? "text-bone" : "text-ink";
 
   if (phase === "role_reveal") return <Big art={<SaduDiamond className="h-20 w-20 text-oxblood" />} title="تعرّفوا على أدواركم" sub={ui.dontShowPhone} cls={base} />;
-  if (phase === "night") return <Big art={<Crescent className="h-36 w-36 text-bone" />} title={ui.sleeping} sub="ينام الجميع… وتتحرك الغيلان" cls="text-bone" />;
+  if (phase === "night") return <Big art={<Crescent className="h-36 w-36 text-bone" />} title={ui.sleeping} sub="ينام الجميع… وتتحرك العفاريت" cls="text-bone" />;
   if (phase === "dawn") {
     const v = pub.lastNight?.victimId;
     return v ? <Big art={<Sun />} title={ui.victimDawn(room.nameOf(v))} cls="text-oxblood" /> : <Big art={<Sun />} title={ui.safeDawn} cls="text-olive" />;

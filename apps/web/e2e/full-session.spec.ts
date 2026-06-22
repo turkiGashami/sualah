@@ -22,6 +22,8 @@ async function newPlayer(browser: Browser, code: string, name: string): Promise<
   const ctx = await browser.newContext();
   const page = await ctx.newPage();
   await page.goto(`/play/${code}`);
+  // Dismiss the how-to-play intro overlay if it auto-shows (blocks the form).
+  await page.getByRole("button", { name: "فهمت، يلّا نبدأ" }).click({ timeout: 8000 }).catch(() => {});
   const nameInput = page.getByPlaceholder("اسمك");
   await nameInput.fill(name);
   await page.getByRole("button", { name: "انضم" }).click();
@@ -45,11 +47,11 @@ async function clickSkip(page: Page): Promise<void> {
 async function detectAllRoles(players: P[]): Promise<void> {
   for (const p of players) {
     await p.page.waitForFunction(
-      () => /غول|العرّاف|الحارس|مواطن/.test(document.body.innerText),
+      () => /العفريت|المرّي|العسّاس|ابن الديرة/.test(document.body.innerText),
       { timeout: 25_000 },
     );
     const t = await bodyText(p.page);
-    p.role = /غول/.test(t) ? "ghoul" : /العرّاف/.test(t) ? "seer" : /الحارس/.test(t) ? "guard" : "villager";
+    p.role = /العفريت/.test(t) ? "ghoul" : /المرّي/.test(t) ? "seer" : /العسّاس/.test(t) ? "guard" : "villager";
   }
   // eslint-disable-next-line no-console
   console.log("roles:", players.map((p) => `${p.name}=${p.role}`).join(", "));

@@ -2,10 +2,10 @@
 import type { Role, Phase } from "@sualah/game-core";
 
 export const roleLabel: Record<Role, string> = {
-  villager: "مواطن",
-  seer: "العرّاف",
-  guard: "الحارس",
-  ghoul: "غول",
+  villager: "ابن الديرة",
+  seer: "المرّي",
+  guard: "العسّاس",
+  ghoul: "العفريت",
 };
 
 export const roleEmoji: Record<Role, string> = {
@@ -16,10 +16,10 @@ export const roleEmoji: Record<Role, string> = {
 };
 
 export const roleTagline: Record<Role, string> = {
-  villager: "لا قدرة لك — الإقناع سلاحك. اكشف الغيلان بالنقاش والتصويت.",
-  seer: "كل ليلة افحص لاعباً لتعرف إن كان من الوحوش أم بريئاً.",
-  guard: "كل ليلة احمِ لاعباً من الافتراس (يجوز نفسك)، ولا تكرّر الهدف ليلتين متتاليتين.",
-  ghoul: "أنت من الغيلان. اتفقوا في الليل على ضحية، وتخفّوا في النهار.",
+  villager: "لا قدرة لك — الإقناع سلاحك. اكشف العفاريت بالنقاش والتصويت.",
+  seer: "كل ليلة اقتفِ أثر لاعب لتعرف: من العفاريت أم بريء.",
+  guard: "كل ليلة احرس لاعباً من الافتراس (يجوز نفسك)، ولا تكرّر الهدف ليلتين متتاليتين.",
+  ghoul: "أنت من العفاريت. اتفقوا في الليل على ضحية، وتخفّوا في النهار.",
 };
 
 export const phaseLabel: Record<Phase, string> = {
@@ -61,12 +61,12 @@ export const ui = {
   youVoted: "تم تصويتك",
   ghostMode: "وضع الروح",
   ghostBlurb: "خرجت من اللعبة — صرت تشاهد كل الأسرار. أرسل تفاعلاً يطفو على الشاشة.",
-  victimDawn: (name: string) => `افترس الغيلانُ ${name} الليلة`,
+  victimDawn: (name: string) => `افترست العفاريتُ ${name} الليلة`,
   safeDawn: "نجت الديرة الليلة — لا ضحية",
   expelled: (name: string, role: string) => `طُرد ${name}… وكان ${role}`,
   noExpel: "لم تُجمِع الديرة على أحد — لا طرد اليوم",
-  villageWin: "فازت الديرة! نُقّيت الأرض من الغيلان",
-  monstersWin: "فازت الغيلان! ابتُلعت الديرة",
+  villageWin: "فازت الديرة! نُقّيت الأرض من العفاريت",
+  monstersWin: "فازت العفاريت! ابتُلعت الديرة",
   alive: "حيّ",
   dead: "خارج",
   round: (n: number) => `الليلة ${n}`,

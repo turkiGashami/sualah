@@ -184,7 +184,7 @@ function RoleCard({ secret, nameOf }: { secret: PlayerSecret | null; nameOf: (id
       <h2 className="font-stage text-5xl text-ink">{roleLabel[role]}</h2>
       <p className="max-w-xs text-ash">{roleTagline[role]}</p>
       {secret.role === "ghoul" && secret.mates.length > 0 && (
-        <p className="rounded-md border-2 border-ink bg-oxblood px-4 py-2 font-bold text-bone">رفاقك من الغيلان: {secret.mates.map(nameOf).join("، ")}</p>
+        <p className="rounded-md border-2 border-ink bg-oxblood px-4 py-2 font-bold text-bone">رفاقك من العفاريت: {secret.mates.map(nameOf).join("، ")}</p>
       )}
       <p className="mt-2 text-sm font-bold text-oxblood">{ui.dontShowPhone}</p>
     </div>
