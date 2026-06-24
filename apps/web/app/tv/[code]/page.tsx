@@ -7,6 +7,7 @@ import { Qr } from "@/components/Qr";
 import { SaduBand, Crescent, Stars, RoleMark, Brand, SaduDiamond } from "@/components/art";
 import { TimerSettings } from "@/components/TimerSettings";
 import { api } from "@/lib/api";
+import { track } from "@/lib/analytics";
 import { ui, phaseLabel, roleLabel } from "@/lib/strings";
 import type { Phase, Role } from "@sualah/game-core";
 
@@ -49,6 +50,10 @@ export default function TvPage({ params }: { params: { code: string } }) {
   useEffect(() => {
     if (audioOn && room.phase === "ended") sound.forPhase("ended", room.pub?.winner ?? null);
   }, [audioOn, room.phase, room.pub?.winner]);
+
+  useEffect(() => {
+    if (room.phase === "ended") track("game_ended", { winner: room.pub?.winner ?? "unknown" });
+  }, [room.phase]);
 
   if (room.notFound) return <main className="grid min-h-screen place-items-center font-title text-3xl text-ash">الغرفة غير موجودة أو انتهت</main>;
   if (!room.ready) return <main className="grid min-h-screen place-items-center font-title text-3xl text-ash">{ui.connecting}</main>;

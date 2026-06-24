@@ -5,6 +5,7 @@ import { useCountdown } from "@/lib/useCountdown";
 import { fetchMySecret } from "@/lib/data";
 import { api, ApiError } from "@/lib/api";
 import { ui, roleLabel, roleTagline, phaseLabel } from "@/lib/strings";
+import { track } from "@/lib/analytics";
 import { RoleMark, Crescent, SaduDiamond, SaduBand } from "@/components/art";
 import { HowToPlay } from "@/components/HowToPlay";
 import type { Phase, PlayerSecret, PublicPlayer, Role } from "@sualah/game-core";
@@ -44,6 +45,7 @@ export default function PlayPage({ params }: { params: { code: string } }) {
         onJoined={(id) => {
           localStorage.setItem(playerKey(code), id);
           setPlayerId(id);
+          track("join_room");
         }}
         onError={flash}
       />

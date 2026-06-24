@@ -7,6 +7,7 @@ import { subscribeRoom } from "@/lib/realtime";
 import { Qr } from "@/components/Qr";
 import { SaduBand } from "@/components/art";
 import { ui } from "@/lib/strings";
+import { track } from "@/lib/analytics";
 import { TimerSettings } from "@/components/TimerSettings";
 
 export default function HostPage() {
@@ -23,6 +24,7 @@ export default function HostPage() {
         const r = await api.createRoom();
         setCode(r.code);
         setRoomId(r.roomId);
+        track("room_created");
       } catch (e) {
         setError(e instanceof ApiError ? e.code : String(e));
       }
@@ -65,6 +67,7 @@ export default function HostPage() {
     setError(null);
     try {
       await api.start(roomId);
+      track("game_started", { players: players.length });
     } catch (e) {
       setError(e instanceof ApiError ? e.code : String(e));
       setStarting(false);

@@ -24,6 +24,8 @@
    ```
    NEXT_PUBLIC_SUPABASE_URL=https://eiooasvslicpmmhuhdei.supabase.co
    NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_jjfIvyCWT82KsdzgkQtyTQ_L84zs8bA
+   # اختياري — تحليلات Google (GA4): فعّلها بإضافة معرّف القياس
+   NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
    ```
    > لا تضع `service_role` هنا أبداً — الواجهة لا تحتاجه.
 

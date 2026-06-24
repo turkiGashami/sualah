@@ -1,5 +1,6 @@
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
+import { Analytics } from "@/components/Analytics";
 
 export const metadata: Metadata = {
   title: "سُعلاة",
@@ -27,6 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <div className="grain" aria-hidden />
         {children}
+        <Analytics />
       </body>
     </html>
   );
