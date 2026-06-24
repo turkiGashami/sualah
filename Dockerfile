@@ -14,9 +14,7 @@ RUN pnpm install --frozen-lockfile
 # (anon/publishable + URL) — safe to ship in the client bundle.
 ENV NEXT_PUBLIC_SUPABASE_URL=https://eiooasvslicpmmhuhdei.supabase.co
 ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_jjfIvyCWT82KsdzgkQtyTQ_L84zs8bA
-# Optional Google Analytics 4 id, passed at build time (--build-arg or platform env).
-ARG NEXT_PUBLIC_GA_ID
-ENV NEXT_PUBLIC_GA_ID=$NEXT_PUBLIC_GA_ID
+# NEXT_PUBLIC_GA_ID comes from the committed apps/web/.env.production (read by next build).
 RUN pnpm --filter @sualah/web build
 
 # ── runtime (standalone) ──────────────────────────────────────────────────────
