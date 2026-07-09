@@ -1,0 +1,6 @@
+{
+  "$schema": "https://schema.railpack.com",
+  "deploy": {
+    "startCommand": "HOSTNAME=0.0.0.0 PORT=${PORT:-3000} node apps/web/.next/standalone/apps/web/server.js"
+  }
+}
